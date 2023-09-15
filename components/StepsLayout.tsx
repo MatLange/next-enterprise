@@ -3,6 +3,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dot } from "./icons/Dot";
 import { VerticalLine } from "./icons/VerticalLine";
+import formOptions from "../validations/validations"
+import { useForm } from 'react-hook-form';
 
 type StepTitleProps = {
   active: boolean;
@@ -34,6 +36,15 @@ export const StepsLayout = ({ children }: StepsLayoutProps) => {
   const activeTwo = router.pathname === "/step-two";
   const activeAnswers = router.pathname === "/your-answers";
 
+  // get functions to build form with useForm() hook
+  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const { errors } = formState;
+  function onSubmit(data:any) {
+    // display form data on success
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(data, null, 4));
+    return false;
+  }  
+
   return (
     <article className="flex justify-start lg:gap-28 min-w-[72%] lg:min-w-[82%]">
       <div className="flex flex-col px-8 py-6 mx-20 h-[200px] border-r-2 border-[#8586887c] border-dashed">
@@ -58,7 +69,7 @@ export const StepsLayout = ({ children }: StepsLayoutProps) => {
           </div>
         </Link>
       </div>
-      <form>{children}</form>
+      <form onSubmit={handleSubmit(onSubmit)}>{children}</form>
     </article>
   );
 };

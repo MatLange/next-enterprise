@@ -1,4 +1,4 @@
-/* import { Layout } from "../components/Layout"
+import { Layout } from "../components/Layout"
 import { StepsLayout } from "../components/StepsLayout"
 import { NavigationButtons } from "../components/NavigationButtons"
 import useFormStore from "../store/form"
@@ -63,9 +63,9 @@ const YourAnswers = () => {
 }
 
 export default YourAnswers
- */
+ 
 
-import Link from "next/link";
+/* import Link from "next/link";
 import { Layout } from "../components/Layout";
 
 const Home = () => {
@@ -80,4 +80,4 @@ const Home = () => {
   );
 };
 
-export default Home;
+export default Home; */
