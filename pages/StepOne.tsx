@@ -1,5 +1,5 @@
 import React from "react";
-import TextInput  from "../components/inputs/TextInput"
+import { TextInputController } from "../components/inputs/TextInputController"
 import { Step } from "../components/Step"
 import { DropdownInput } from "../components/inputs/DropdownInput"
 
@@ -11,13 +11,16 @@ const fruits = [
   { id: 5, name: "Watermelon 🍉" },
 ]
 
-function StepOne({ errors: errors, register:register, formData:formData, setFormData:setFormData }) {
-    return (
+
+function StepOne({ name:name, control:control, errors: errors, register:register, formData:formData, setFormData:setFormData }) {
+  const compProps = register(name);
+  return (
       <>
           <div className="form-group col-5">
-              <label>First Name</label>
-              <input name="firstName" type="text" {...register('firstName')} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
-              <div className="invalid-feedback">{errors.firstName?.message}</div>
+{/*               <label>First Name</label>
+              <input name={name} type="text" {...register(name)} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
+              <div className="invalid-feedback">{errors.firstName?.message}</div> */}
+              <TextInputController control={control} {...register(name)} name={name}/> 
           </div>
       </>
     )

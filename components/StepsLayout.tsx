@@ -3,7 +3,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dot } from "./icons/Dot";
 import { VerticalLine } from "./icons/VerticalLine";
-import formOptions from "../validations/validations"
+import { formOptions } from "../validations/validations"
 import { useForm } from 'react-hook-form';
 
 type StepTitleProps = {
