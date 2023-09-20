@@ -14,7 +14,7 @@ const GivenValue = ({ givenValue }: GivenValueProps) => {
     </span>
   )
 }
-const YourAnswers = () => {
+const WizardResult = () => {
   const { inputText, selectedDropdownElement, radioOption, inputTextArea } =
     useFormStore()
   return (
@@ -62,7 +62,7 @@ const YourAnswers = () => {
   )
 }
 
-export default YourAnswers
+export default WizardResult
  
 
 /* import Link from "next/link";

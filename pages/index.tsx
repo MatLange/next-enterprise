@@ -1,112 +1,281 @@
-/* import React from 'react';
-import Head from 'next/head';
-//import './index.css';
-import FormApp from './FormApp';
-
-// If you want to start measuring performance in your app, pass a function
-// to log results (for example: reportWebVitals(console.log))
-// or send to an analytics endpoint. Learn more: https://bit.ly/CRA-vitals
-
-export default function Home() {
-  return (
-    <main className="flex min-h-screen flex-col items-center justify-between p-24">
-      <div className="z-10 max-w-5xl w-full items-center justify-between font-mono text-sm lg:flex">
-        <p className="fixed left-0 top-0 flex w-full justify-center border-b border-gray-300 bg-gradient-to-b from-zinc-200 pb-6 pt-8 backdrop-blur-2xl dark:border-neutral-800 dark:bg-zinc-800/30 dark:from-inherit lg:static lg:w-auto  lg:rounded-xl lg:border lg:bg-gray-200 lg:p-4 lg:dark:bg-zinc-800/30">
-          Get started by editing&nbsp;
-          <code className="font-mono font-bold">app/page.tsx</code>
-        </p>
-      </div>
-
-      <div className="fixed bottom-0 left-0 flex h-48 w-full items-end justify-center bg-gradient-to-t from-white via-white dark:from-black dark:via-black lg:static lg:h-auto lg:w-auto lg:bg-none">
-        <FormApp />
-        </div>
-
-
-      <div className="mb-32 grid text-center lg:max-w-5xl lg:w-full lg:mb-0 lg:grid-cols-4 lg:text-left">
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Docs{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Find in-depth information about Next.js features and API.
-          </p>
-        </a>
-
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Learn{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Learn about Next.js in an interactive course with&nbsp;quizzes!
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Templates{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Explore the Next.js 13 playground.
-          </p>
-        </a>
-
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className="group rounded-lg border border-transparent px-5 py-4 transition-colors hover:border-gray-300 hover:bg-gray-100 hover:dark:border-neutral-700 hover:dark:bg-neutral-800/30"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2 className={`mb-3 text-2xl font-semibold`}>
-            Deploy{' '}
-            <span className="inline-block transition-transform group-hover:translate-x-1 motion-reduce:transform-none">
-              -&gt;
-            </span>
-          </h2>
-          <p className={`m-0 max-w-[30ch] text-sm opacity-50`}>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-} */
-import Link from "next/link";
+import React, { useState } from "react";
 import { Layout } from "../components/Layout";
+import { StepsLayout } from "../components/StepsLayout";
+import  StepOne  from "./StepOne";
+import  StepTwo  from "./StepTwo";
+import  StepThree  from "./StepThree";
+import  WizardResult  from "./WizardResult";
+import { DropdownInput } from "../components/inputs/DropdownInput";
+import { useRouter } from "next/router";
+import { FormProvider, useForm } from 'react-hook-form';
+import { validationSchemas } from "../validations/validations";
+import * as Yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { Button, ButtonProps, createMuiTheme, Paper, Stepper, Step, StepLabel, ThemeProvider } from "@material-ui/core";
+import Box from "@mui/material/Box";
+import { makeStyles } from "@material-ui/core";
+import Stack from '@mui/material/Stack';
+
+const fruits = [
+  { id: 1, name: "Bananas 🍌" },
+  { id: 2, name: "Strawberries 🍓" },
+  { id: 3, name: "Kiwis 🥝" },
+  { id: 4, name: "Blueberries 🫐" },
+  { id: 5, name: "Watermelon 🍉" },
+]
+
+const FormTitles = ["Sign Up", "Personal Info", "Other"];
 
 const Home = () => {
-  return (
-    <Layout>
-      <Link href="/step-one">
-        <h1 className="text-[58px] md:text-[88px] lg:text-[100px] text-transparent bg-clip-text bg-gradient-to-r from-indigo-500 from-10% via-sky-500 via-30% to-emerald-500 to-90% hover:from-pink-500 hover:to-yellow-500">
-          Enter the form
-        </h1>
-      </Link>
-    </Layout>
-  );
+  const router = useRouter();
+  const formStep = router.query.step ?? 0;
+  
+  // get functions to build form with useForm() hook
+  const goToStep = (step : any, asPath:string) => {
+    router.push(`/?step=${step}`, asPath);
+  };
+  const [page, setPage] = useState(0);
+  const [completed, setCompleted] = useState(false);
+
+
+  const currentValidationSchema = validationSchemas[page];  
+  //const { register, handleSubmit, reset, trigger, control, formState } = useForm({...currentValidationSchema, mode: 'all'});
+  const methods = useForm({resolver: yupResolver(currentValidationSchema), mode: 'all'});
+
+/*   const methods = useForm({
+    shouldUnregister: false,
+    defaultValues,
+    resolver: yupResolver(currentValidationSchema),
+    mode: "onChange"
+  });  
+ */  const { errors, isValid } = methods.formState;
+
+
+
+  const [formData, setFormData] = useState({
+    email: "",
+    password: "",
+    confirmPassword: "",
+    firstName: "",
+    lastName: "",
+    username: "",
+    nationality: "",
+    other: "",
+  });
+
+  function onSubmit(data:any) {
+    // display form data on success
+    //setCompleted(true);
+
+    alert('SUCCESS!! :-)\n\n' + JSON.stringify(data, null, 4));
+    
+    return false;
+  }    
+
+  function onInvalid(data:any) {
+    // display form data on success
+    methods.trigger();
+  }    
+  /** Nnavigation between steps */
+  const rightArrow = "https://ik.imagekit.io/lrjseyuxi3m/youtube/Form/next-arrow_1pmaQTqF3.svg?updatedAt=1634410703345"
+  const leftArrow  = "https://ik.imagekit.io/lrjseyuxi3m/youtube/Form/back-arrow_ZBmeHiBP3.svg?updatedAt=1634410703363"
+  const fieldGroups =[
+    "Step One",
+    "Step Two",
+    "Step Three",
+    "Confirm",
+  ]  
+
+  function isLastStep() {
+    return page === fieldGroups.length - 1;
+  }
+
+  const handleSave = async () => {
+    if (isLastStep()) {
+      await methods.handleSubmit(onSubmit, onInvalid);
+      setCompleted(true);
+    } else {
+      await handleNext();
+    }
+  };
+
+  const handleNext = async () => {
+    if (isLastStep()) {
+      setCompleted(true);
+    }
+    const isStepValid = await methods.trigger();
+    if (isStepValid) setPage((prevActiveStep) => prevActiveStep + 1);
+  };
+
+  const handleBack = () => {
+    setPage((prevActiveStep) => prevActiveStep - 1);
+  };
+
+  const handleReset = () => {
+    setPage(0);
+    methods.reset();
+  };
+
+
+  function handleOnClick (e:any) {
+    methods.handleSubmit(onSubmit, onInvalid);
+    setPage(page + 1);
+  }
+
+ const SaveButton = (props:ButtonProps) => {
+  return <Button
+  {...props}
+  color="primary" 
+  variant="contained" 
+  type="button" onClick={handleNext}>
+  SAVE
+  </Button>
 };
+
+const NextButton = (props:ButtonProps) => {
+return <Button 
+{...props}
+color="primary" 
+variant="contained"            
+type="button" onClick={handleNext}>
+  NEXT
+</Button>  
+};
+
+const BackButton = (props:ButtonProps) => {
+  return       <Button 
+  {...props}
+  color="primary" 
+  variant="contained"     
+  type="button" onClick={handleBack}>
+    BACK
+  </Button>
+  }; 
+
+  const Navigation = () => {
+    const isValidisValid = isValid;
+    if (page  === fieldGroups.length-1) {     
+      return  <Box
+      display="flex"
+      justifyContent="space-around"
+      style={{ paddingTop: "5vh" }}
+    >
+              <BackButton />
+              <SaveButton/>
+            </Box>
+    }
+    else if (page  < fieldGroups.length-1 && page  > 0) {     
+      return  <Box
+      display="flex"
+      justifyContent="space-around"
+      style={{ paddingTop: "5vh" }}
+    >
+              <BackButton />
+              <NextButton/>
+            </Box>
+    }
+    else if (page  === 0 ) {
+        return                 <Box
+                  display="flex"
+                  justifyContent="space-around"
+                  style={{ paddingTop: "5vh" }}
+                >
+        <BackButton disabled={true}/>
+        <NextButton/>
+      </Box>
+    }
+  };
+
+  const PageDisplay = () => {
+    if (completed === true) {
+    }
+
+    if (page === 0) {
+      return <StepOne control={methods.control} register={methods.register} />;             
+    } else if (page === 1) {
+      return <StepTwo control={methods.control} register={methods.register} />;             
+    } else if (page === 2) {
+      return <StepThree control={methods.control} register={methods.register} />;             
+    } else if (page === 3) {
+      return <WizardResult  control={methods.control} register={methods.register} />;             
+    }    
+  };
+
+//some styling
+const theme = createMuiTheme({
+  palette: {
+    type: "light"
+  }
+});
+const useStyles = makeStyles((theme) => ({
+  layout: {
+    width: "auto",
+    marginLeft: theme.spacing(0.5),
+    marginRight: theme.spacing(0.5),
+    [theme.breakpoints.up(600 + theme.spacing(2) * 2)]: {
+      width: "90%",
+      marginLeft: "auto",
+      marginRight: "auto"
+    }
+  },
+  button: {
+    marginRight: theme.spacing(1)
+  },
+  instructions: {
+    marginTop: theme.spacing(1),
+    marginBottom: theme.spacing(1),
+    minHeight: "25vh"
+  },
+  paper: {
+    marginTop: theme.spacing(2),
+    marginBottom: theme.spacing(2),
+    padding: theme.spacing(2),
+    [theme.breakpoints.up(600 + theme.spacing(3) * 2)]: {
+      marginTop: theme.spacing(4),
+      marginBottom: theme.spacing(6),
+      padding: theme.spacing(3)
+    }
+  }
+}));
+
+//const classes = useStyles();
+
+  return (
+<>
+  <Box
+    display="flex"
+    justifyContent="center"
+    alignItems="center"
+    minHeight="100vh"
+  >       
+<div className='flex flex-col justify-between min-w-[500px] min-h-[200px]'>
+      <div className="card m-3">
+      <h5 className="card-header">Next.js - Form Validation Example</h5>
+        <div className="card-body"></div>  
+  <ThemeProvider theme={theme}>
+        <Stepper activeStep={page}>
+          {fieldGroups.map((label, index) => {
+            const stepProps = {};
+            const labelProps = {};
+            return (
+              <Step key={label} {...stepProps}>
+                <StepLabel {...labelProps}>{label}</StepLabel>
+              </Step>
+            );
+          })}
+        </Stepper>    
+          <FormProvider {...methods}>        
+            <form onSubmit={methods.handleSubmit(onSubmit)}>
+              <PageDisplay />
+              <Navigation/>          
+            </form>
+          </FormProvider>          
+          </ThemeProvider>          
+          </div>
+      </div>    
+          </Box>          
+        </>
+  )
+}
 
 export default Home;

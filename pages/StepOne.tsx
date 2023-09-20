@@ -1,7 +1,10 @@
 import React from "react";
-import { TextInputController } from "../components/inputs/TextInputController"
-import { Step } from "../components/Step"
-import { DropdownInput } from "../components/inputs/DropdownInput"
+import { SelectController } from "../components/materialui/SelectController";
+import { TextInputController } from "../components/materialui/TextInputController";
+import Box from "@mui/material/Box";
+import {
+  useController,
+} from "react-hook-form";
 
 const fruits = [
   { id: 1, name: "Bananas 🍌" },
@@ -12,32 +15,31 @@ const fruits = [
 ]
 
 
-function StepOne({ name:name, control:control, errors: errors, register:register, formData:formData, setFormData:setFormData }) {
-  const compProps = register(name);
+function StepOne({ control:control, register:register }) {
   return (
       <>
-          <div className="form-group col-5">
-{/*               <label>First Name</label>
-              <input name={name} type="text" {...register(name)} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
-              <div className="invalid-feedback">{errors.firstName?.message}</div> */}
-              <TextInputController control={control} {...register(name)} name={name}/> 
-          </div>
+    <Box flexDirection="column"
+                  display="flex"
+                  alignItems="center" p={2}>
+      <Box       sx={{
+        '& .MuiFormControl-root': { m: 1, width: '50ch' },
+        
+      }} mt={2}>
+        <SelectController required={true} control={control}  {...useController({...register("title")})}  label="Which one is your favourite fruit?" name="title"  menuItems={fruits}/> 
+        </Box>          
+        <Box       sx={{
+        '& .MuiTextField-root': { m: 1, width: '50ch' },
+      }} mt={2}>
+        <TextInputController control={control} {...useController({...register("firstName")})} label="firstName" name="firstName"/> 
+        </Box>                
+        <Box       sx={{
+        '& .MuiTextField-root': { m: 1, width: '50ch' },
+      }} mt={2}>
+        <TextInputController control={control} {...useController({...register("lastName")})} label="lastName" name="lastName"/> 
+        </Box>        
+        </Box>
       </>
     )
-/*   return (
-      <Step back='/' next='/step-two'>
-          <div className='flex flex-col gap-4'>
-          <input name="firstName" type="text" {...register('firstName')} className={`form-control ${errors.firstName ? 'is-invalid' : ''}`} />
-                            <div className="invalid-feedback">{errors.firstName?.message}</div>
-
-             {<TextInput registerFn={register("email")} isRequired={true} labelText='How should I call you?' />  }
-            <DropdownInput
-              question='Which one is your favourite fruit?'
-              data={fruits}
-            />
-          </div>
-        </Step>
-  ) */
 }
 
 export default StepOne
