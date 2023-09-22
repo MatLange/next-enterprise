@@ -8,8 +8,8 @@ import {
   UseControllerReturn,
 } from "react-hook-form";
 export const TextInputController = (props: UseControllerProps & UseControllerReturn & TextFieldProps)  => {
-  const  { field }:UseControllerReturn = props;  
-  const {...customProps}:TextFieldProps = props;
+  const  { field }:UseControllerReturn = props as UseControllerReturn;  
+  const {...customProps}:TextFieldProps = props as TextFieldProps;
 
   return (
     <Controller
@@ -24,6 +24,7 @@ export const TextInputController = (props: UseControllerProps & UseControllerRet
           <TextField {...field} 
                     fullWidth={true}
                     id={props.name}
+                    required={props.required}
                     label={props.label}
                     helperText={errorText ? errorText : ""}
                     error={!!errorText} 

@@ -36,19 +36,17 @@ export const SelectController = (props : UseControllerProps & UseControllerRetur
         return (
         <div>
         <FormControl variant="standard">
-{/*           <InputLabel error={!!errorText} id="demo-multiple-checkbox-label" required={props.required} htmlFor="demo-multiple-checkbox">{props.label}</InputLabel> 
- */}         <TextField
+          <InputLabel error={!!errorText} id="demo-multiple-checkbox-label" required={customProps.required} htmlFor="demo-multiple-checkbox">{props.label}</InputLabel> 
+         <TextField
           {...field}           
           fullWidth={true}
           select
-          required={props.required} 
           id={props.name}
           label={props.label}
           helperText={errorText ? errorText : ""}
           error={!!errorText} 
           variant="outlined"
-          /* onChange={(e) => field.onChange(transform.output(e))} */
-          onChange={onChange}
+          onChange={onChange} // send value to hook form
           onBlur={onBlur} // notify when input is touched
           value={value} // return updated value
           ref={ref} // set ref for focus management      
@@ -61,8 +59,8 @@ export const SelectController = (props : UseControllerProps & UseControllerRetur
               )
         })}      
         </TextField>
-{/*         <FormHelperText error={!!errorText} id="outlined-weight-helper-text">{errorText}</FormHelperText>
- */}      </ FormControl>
+        <FormHelperText error={!!errorText} id="outlined-weight-helper-text">{errorText}</FormHelperText>
+      </ FormControl>
       </div> )
         }
     }

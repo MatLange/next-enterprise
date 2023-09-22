@@ -1,17 +1,21 @@
 import React, { useState } from "react";
+import  StepOne  from "../components/formSteps/StepOne";
+import  StepTwo  from "../components/formSteps/StepTwo";
+import  StepThree  from "../components/formSteps/StepThree";
+import  WizardResult  from "../components/formSteps/WizardResult";
 import { Layout } from "../components/Layout";
 import { StepsLayout } from "../components/StepsLayout";
-import  StepOne  from "./StepOne";
-import  StepTwo  from "./StepTwo";
-import  StepThree  from "./StepThree";
-import  WizardResult  from "./WizardResult";
 import { DropdownInput } from "../components/inputs/DropdownInput";
 import { useRouter } from "next/router";
-import { FormProvider, useForm } from 'react-hook-form';
+import { FormProvider, 
+  useForm,
+} from 'react-hook-form';
+import { SelectController } from "../components/materialui/SelectController";
+import { TextInputController } from "../components/materialui/TextInputController";
 import { validationSchemas } from "../validations/validations";
 import * as Yup from 'yup';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { Button, ButtonProps, createMuiTheme, Paper, Stepper, Step, StepLabel, ThemeProvider } from "@material-ui/core";
+import { Button, ButtonProps, createMuiTheme, Paper, Step, StepLabel, Stepper,ThemeProvider } from "@material-ui/core";
 import Box from "@mui/material/Box";
 import { makeStyles } from "@material-ui/core";
 import Stack from '@mui/material/Stack';
@@ -40,15 +44,15 @@ const Home = () => {
 
   const currentValidationSchema = validationSchemas[page];  
   //const { register, handleSubmit, reset, trigger, control, formState } = useForm({...currentValidationSchema, mode: 'all'});
-  const methods = useForm({resolver: yupResolver(currentValidationSchema), mode: 'all'});
+  const formMethods = useForm({resolver: yupResolver(currentValidationSchema), mode: 'all'});
 
-/*   const methods = useForm({
+/*   const formMethods = useForm({
     shouldUnregister: false,
     defaultValues,
     resolver: yupResolver(currentValidationSchema),
     mode: "onChange"
   });  
- */  const { errors, isValid } = methods.formState;
+ */  const { errors, isValid } = formMethods.formState;
 
 
 
@@ -74,7 +78,7 @@ const Home = () => {
 
   function onInvalid(data:any) {
     // display form data on success
-    methods.trigger();
+    formMethods.trigger();
   }    
   /** Nnavigation between steps */
   const rightArrow = "https://ik.imagekit.io/lrjseyuxi3m/youtube/Form/next-arrow_1pmaQTqF3.svg?updatedAt=1634410703345"
@@ -92,7 +96,7 @@ const Home = () => {
 
   const handleSave = async () => {
     if (isLastStep()) {
-      await methods.handleSubmit(onSubmit, onInvalid);
+      await formMethods.handleSubmit(onSubmit, onInvalid);
       setCompleted(true);
     } else {
       await handleNext();
@@ -103,7 +107,7 @@ const Home = () => {
     if (isLastStep()) {
       setCompleted(true);
     }
-    const isStepValid = await methods.trigger();
+    const isStepValid = await formMethods.trigger();
     if (isStepValid) setPage((prevActiveStep) => prevActiveStep + 1);
   };
 
@@ -113,12 +117,12 @@ const Home = () => {
 
   const handleReset = () => {
     setPage(0);
-    methods.reset();
+    formMethods.reset();
   };
 
 
   function handleOnClick (e:any) {
-    methods.handleSubmit(onSubmit, onInvalid);
+    formMethods.handleSubmit(onSubmit, onInvalid);
     setPage(page + 1);
   }
 
@@ -191,13 +195,13 @@ const BackButton = (props:ButtonProps) => {
     }
 
     if (page === 0) {
-      return <StepOne control={methods.control} register={methods.register} />;             
+      return <StepOne control={formMethods.control} register={formMethods.register} />;        
     } else if (page === 1) {
-      return <StepTwo control={methods.control} register={methods.register} />;             
+      return <StepTwo control={formMethods.control} register={formMethods.register} />;             
     } else if (page === 2) {
-      return <StepThree control={methods.control} register={methods.register} />;             
-    } else if (page === 3) {
-      return <WizardResult  control={methods.control} register={methods.register} />;             
+      return <StepThree control={formMethods.control} register={formMethods.register} />;          
+    } else if (page === 3) { 
+      return <WizardResult {...formMethods} />;             
     }    
   };
 
@@ -264,8 +268,8 @@ const useStyles = makeStyles((theme) => ({
             );
           })}
         </Stepper>    
-          <FormProvider {...methods}>        
-            <form onSubmit={methods.handleSubmit(onSubmit)}>
+          <FormProvider {...formMethods}>        
+            <form onSubmit={formMethods.handleSubmit(onSubmit)}>
               <PageDisplay />
               <Navigation/>          
             </form>

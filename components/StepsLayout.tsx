@@ -3,8 +3,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { Dot } from "./icons/Dot";
 import { VerticalLine } from "./icons/VerticalLine";
-import { formOptions } from "../validations/validations"
+import { validationSchemas } from "../validations/validations";
 import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+
 
 type StepTitleProps = {
   active: boolean;
@@ -37,7 +39,8 @@ export const StepsLayout = ({ children }: StepsLayoutProps) => {
   const activeAnswers = router.pathname === "/your-answers";
 
   // get functions to build form with useForm() hook
-  const { register, handleSubmit, reset, formState } = useForm(formOptions);
+  const currentValidationSchema = validationSchemas[3];  
+  const { register, handleSubmit, reset, formState } = useForm({resolver: yupResolver(currentValidationSchema), mode: 'all'});
   const { errors } = formState;
   function onSubmit(data:any) {
     // display form data on success

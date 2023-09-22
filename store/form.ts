@@ -1,8 +1,8 @@
 import { create } from "zustand"
 
 type FormStore = {
-  inputText: string
-  setInputText: (value: string) => void
+  title: string
+  setTitle: (value: string) => void
   selectedDropdownElement: { id: number; name: string }
   setSelectedDropdownElement: ({
     id,
@@ -18,8 +18,8 @@ type FormStore = {
 }
 
 const useFormStore = create<FormStore>()((set) => ({
-  inputText: "",
-  setInputText: (value) => set({ inputText: value }),
+  title: "",
+  setTitle: (value) => set({ title: value }),
   selectedDropdownElement: { id: 0, name: "Pick one!" },
   setSelectedDropdownElement: ({ id, name }) =>
     set({ selectedDropdownElement: { id, name } }),

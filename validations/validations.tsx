@@ -2,29 +2,31 @@
     import { ValidationMode } from "react-hook-form";
     import { yupResolver } from '@hookform/resolvers/yup';
     import * as Yup from 'yup';
+    import { array as yupArray } from "yup";
+
 
     export const validationSchemas: Array<any> = [
         Yup.object({
             title: Yup.string()
-                .required('Title is required'),
+                .required('Title is required'),                  
             firstName: Yup.string()
                 .required('First Name is required'),
             lastName: Yup.string()
                 .required('Last name is required'),                        
         }),
         Yup.object({
-            title: Yup.string()
-                .required('Title is required'),
-            firstName: Yup.string()
-                .required('First Name is required'),
-            lastName: Yup.string()
-                .required('Last name is required'),                        
+            fruits: yupArray().required('Fruits are required'),                 
+            address: Yup.string()
+                .required('Address is required'),
+            city: Yup.string()
+                .required('City is required'),                        
         }),     
         Yup.object({
-            firstName: Yup.string()
-                .required('First Name is required'),
-            lastName: Yup.string()
-                .required('Last name is required'),                        
+            vegetables: yupArray().required('Vegetables are required'),                 
+            wishes: Yup.string()
+                .required('Wishes are required'),
+            comment: Yup.string()
+                .required('Comment is required'),                        
         }),                
         Yup.object({
             comment: Yup.string()

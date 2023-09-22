@@ -10,7 +10,7 @@ import {
 } from "react-hook-form";
 export const TextAreaController = (props:UseControllerProps & TextFieldProps)  => {
   const { field, fieldState } = useController(props);  
-  const {...customProps}:TextFieldProps = props;
+  const {...customProps}:TextFieldProps = props as TextFieldProps;
 
   return (
     <Controller

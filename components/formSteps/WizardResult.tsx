@@ -1,7 +1,7 @@
-import { Layout } from "../components/Layout"
-import { StepsLayout } from "../components/StepsLayout"
-import { NavigationButtons } from "../components/NavigationButtons"
-import useFormStore from "../store/form"
+import { Layout } from "../Layout"
+import { StepsLayout } from "../StepsLayout"
+import { NavigationButtons } from "../NavigationButtons"
+import useFormStore from "../../store/form"
 
 type GivenValueProps = {
   givenValue: string
@@ -14,8 +14,11 @@ const GivenValue = ({ givenValue }: GivenValueProps) => {
     </span>
   )
 }
-const WizardResult = () => {
-  const { inputText, selectedDropdownElement, radioOption, inputTextArea } =
+const WizardResult = (props: any ) => {
+  const { getValues } = props; 
+  const nameAndTitle = getValues("firstName") + " " + getValues("lastName") + " ";
+
+  const { selectedDropdownElement, radioOption, inputTextArea } =
     useFormStore()
   return (
     <Layout>
@@ -24,13 +27,13 @@ const WizardResult = () => {
           <div className='flex flex-col gap-2'>
             <p className='text-xl'>
               Hello{" "}
-              {inputText.length !== 0 ? (
-                <GivenValue givenValue={`, ${inputText}`} />
+              {nameAndTitle.length !== 0 ? (
+                <GivenValue givenValue={`, ${nameAndTitle}`} />
               ) : (
                 "there"
               )}
               !
-            </p>
+            </p>  
             {selectedDropdownElement.id !== 0 ? (
               <p className='text-xl'>
                 You said your favourite fruit is{" "}
@@ -55,7 +58,6 @@ const WizardResult = () => {
           ) : (
             <p>You had no additional message!</p>
           )}
-          <NavigationButtons back='/step-two' next='/' home />
         </div>
       </StepsLayout>
     </Layout>
